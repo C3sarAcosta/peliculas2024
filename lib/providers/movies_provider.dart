@@ -30,7 +30,7 @@ class MoviesProvider extends ChangeNotifier {
 
     notifyListeners();
 
-    print(nowPlayingResponse.results[0].title);
+    print(nowPlayingResponse.results[0].id);
   }
 
   getPopularMovies() async {

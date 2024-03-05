@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 
+import '../models/models.dart';
+
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final String movie =
-        ModalRoute.of(context)?.settings.arguments.toString() ?? 'Sin Nombre';
-    return const Scaffold(
+    final Movie movie =
+        ModalRoute.of(context)?.settings.arguments.toString() as Movie;
+    return Scaffold(
       body: CustomScrollView(
         slivers: [
           _CustomAppBar(),
           SliverList(
             delegate: SliverChildListDelegate.fixed([
-              _PosterAndTitle(),
+              _PosterAndTitle(
+                movie: movie,
+              ),
               _Overview(),
             ]),
           ),
@@ -55,7 +59,8 @@ class _CustomAppBar extends StatelessWidget {
 }
 
 class _PosterAndTitle extends StatelessWidget {
-  const _PosterAndTitle({super.key});
+  final Movie movie;
+  const _PosterAndTitle({super.key, required this.movie});
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +73,7 @@ class _PosterAndTitle extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             child: FadeInImage(
               placeholder: AssetImage('assets/loading.gif'),
-              image: AssetImage('assets/no-image.jpg'),
+              image: NetworkImage(movie.fullPosterImg),
               height: 250,
             ),
           ),

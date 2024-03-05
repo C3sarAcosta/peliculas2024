@@ -69,6 +69,11 @@ class Cast {
   String toRawJson() => json.encode(toJson());
 
   //fullProfilePath
+  get fullProfilePath {
+    if (this.profilePath != null)
+      return 'https://image.tmdb.org/t/p/w500${this.profilePath}';
+    return 'https://i.stack.imgur.com/GNhx0.png';
+  }
 
   factory Cast.fromJson(Map<String, dynamic> json) => Cast(
         adult: json["adult"],

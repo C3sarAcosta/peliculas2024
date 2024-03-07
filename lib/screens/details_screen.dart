@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:peliculas2024/widgets/casting_cards.dart';
 
 import '../models/models.dart';
 
@@ -7,18 +8,20 @@ class DetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Movie movie =
-        ModalRoute.of(context)?.settings.arguments.toString() as Movie;
+    final Movie movie = ModalRoute.of(context)?.settings.arguments as Movie;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          _CustomAppBar(),
+          _CustomAppBar(movie: movie),
           SliverList(
             delegate: SliverChildListDelegate.fixed([
               _PosterAndTitle(
                 movie: movie,
               ),
-              _Overview(),
+              _Overview(
+                movie: movie,
+              ),
+              CastingCards(movieId: movie.id),
             ]),
           ),
         ],
@@ -28,7 +31,8 @@ class DetailsScreen extends StatelessWidget {
 }
 
 class _CustomAppBar extends StatelessWidget {
-  const _CustomAppBar({super.key});
+  final Movie movie;
+  const _CustomAppBar({super.key, required this.movie});
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +48,14 @@ class _CustomAppBar extends StatelessWidget {
           width: double.infinity,
           alignment: Alignment.bottomCenter,
           color: Colors.black12,
-          child: const Text(
-            'movie.title',
+          child: Text(
+            movie.title,
             style: TextStyle(fontSize: 18),
           ),
         ),
         background: FadeInImage(
           placeholder: AssetImage('assets/loading.gif'),
-          image: AssetImage('assets/no-image.jpg'),
+          image: NetworkImage(movie.backdropPathImg),
         ),
       ),
     );
@@ -83,7 +87,7 @@ class _PosterAndTitle extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'movie.title',
+                  movie.title,
                   style: TextStyle(
                     fontSize: 30,
                   ),
@@ -91,7 +95,7 @@ class _PosterAndTitle extends StatelessWidget {
                   maxLines: 2,
                 ),
                 Text(
-                  'movie.titleoRIGINAL',
+                  movie.originalTitle,
                   style: TextStyle(
                     fontSize: 18,
                   ),
@@ -109,7 +113,7 @@ class _PosterAndTitle extends StatelessWidget {
                       width: 5,
                     ),
                     Text(
-                      'movie.voteAverage',
+                      movie.voteAverage.toString(),
                       style: TextStyle(fontSize: 15),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
@@ -126,14 +130,15 @@ class _PosterAndTitle extends StatelessWidget {
 }
 
 class _Overview extends StatelessWidget {
-  const _Overview({super.key});
+  final Movie movie;
+  const _Overview({super.key, required this.movie});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: const Text(
-        'Exercitation amet commodo et elit id dolor adipisicing aliquip. Eu officia laborum in sint consectetur enim nostrud. Anim est Lorem sit mollit ex sunt in enim pariatur duis. Labore incididunt excepteur culpa sint minim. Aute elit amet sunt cillum eiusmod fugiat esse magna voluptate elit Lorem consectetur. Pariatur aliquip eiusmod labore anim minim officia non.',
+      child: Text(
+        movie.overview,
         textAlign: TextAlign.justify,
         style: TextStyle(fontSize: 15),
       ),

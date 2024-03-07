@@ -26,10 +26,10 @@ class CastingCards extends StatelessWidget {
         return Container(
           margin: EdgeInsets.only(bottom: 30),
           width: double.infinity,
-          height: 180,
+          height: 200,
           child: ListView.builder(
             //TODO: Cambiar el tamaño
-            itemCount: 10,
+            itemCount: cast.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (_, int index) => _CastCard(actor: cast[index]),
           ),
